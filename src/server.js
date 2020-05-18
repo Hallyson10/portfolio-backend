@@ -12,7 +12,7 @@ app.use(function(req, res, next) {
     next();
   });
 app.use(express.json());
-app.use(cors({origin : process.env.URL_API}))
+app.use(cors())
 app.use(routes);
 app.use('/files',express.static(path.join(__dirname,'..','imageProjeto','uploads')));
 app.use((error, req, res, next)=>{
