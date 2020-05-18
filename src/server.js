@@ -12,7 +12,9 @@ const cors = require('cors')
 //     next();
 //   });
 app.use(express.json());
-app.use(cors())
+app.use(cors({
+  origin: 'http://localhost:3000'
+}));
 app.use(routes);
 app.use('/files',express.static(path.join(__dirname,'..','imageProjeto','uploads')));
 app.use((error, req, res, next)=>{
