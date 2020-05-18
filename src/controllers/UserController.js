@@ -28,7 +28,7 @@ module.exports = {
              })
              return res.status(201).send({message : "cadastrado com sucesso!",user})
         } catch (error) {
-            next(error.status || 500);
+            next(error);
         }
     },
     async getUser(req, res, next){
