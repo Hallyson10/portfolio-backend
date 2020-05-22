@@ -1,6 +1,10 @@
 const User = require('../models/User');
-require('dotenv')
+require('dotenv');
+const { jwtSecret } = require('../../.env');
+const jwt = require('jwt-simple');
 const bcrypt = require('bcryptjs');
+
+
 module.exports = {
     async createUser(req, res,next){
         try {
@@ -14,6 +18,7 @@ module.exports = {
                 facebook,
                 descricao_pessoal 
              } = req.body;
+
              const salt = bcrypt.genSaltSync(10);
              const hash = bcrypt.hashSync(password, salt);
              const user = await User.create({
@@ -35,7 +40,6 @@ module.exports = {
         try {
             const { id } = req.params;
             const user = await User.findByPk(id);
-            console.log(id)
             if(!user){
                 return res.status(404).json({status : null});
             }
@@ -49,15 +53,42 @@ module.exports = {
         try {
             const { email, password } = req.body;
             const user = await User.findOne({where:{email}});
-            let isEqual = bcrypt.compareSync(password,user.password);
+            if(!user){
+                return res.status(400).send('Usuário não encontrado!')
+            }
+            const isEqual = bcrypt.compareSync(password,user.password);
             if(!isEqual){
-                return res.status(404).json({status : null});
+                return res.status(404).json({status : null,message : 'Senha incorreta!'});
             }
             user.password = null;
-            return res.send({id : user.id, status : true});
+            const dataGeradoToken = Math.floor(Date.now() / 1000);//data em milisegundos
+            const payload = {
+                id : user.id,
+                status : true,
+                iat : dataGeradoToken,
+                exp : dataGeradoToken + (60 * 60 * 24 * 5)
+            }
+            return res.json({...payload, 
+            token : jwt.encode(payload, jwtSecret)
+            });
         } catch (error) {
             next(error);
         }
+    },
+    async validateToken(req,res,next){
+            try {
+                const { userData } = req.body || null;
+                if(userData){
+                    const token = jwt.decode(userData,jwtSecret);
+                    const newToken = jwt.encode(userData,jwtSecret);
+                    if(new Date(token.exp * 1000) > new Date()){
+                            return res.send({token : newToken});
+                    }
+                    res.send(false);
+                }
+            } catch (error) {
+                next(error);
+            }
     },
     async deleteUser(req,res,next){
             try {

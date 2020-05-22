@@ -1,13 +1,41 @@
 require('dotenv').config()
+
 module.exports = {
-    dialect : 'postgres',
-    host : process.env.HOST,
-    username : process.env.USER,
-    password : process.env.PASSWORD,
-    database : process.env.DATA_BASE,
-    port : process.env.PORT,
-    define : {
-        timestamps : true,
-        underscored : true
-    }
-}
+    username : 'postgres',
+         password : 'Ha24091999',
+         database : 'sqlportfolio',
+        define : {
+            timestamps : true,
+            underscored : true
+        },
+        dialect : 'postgres'
+          // host : process.env.HOST,
+          // username : process.env.USER,
+          // password : process.env.PASSWORD,
+          // database : process.env.DATA_BASE,
+          // port : process.env.PORT,
+          // dialect : 'postgres',
+          //   define : {
+          //     timestamps : true,
+          //     underscored : true
+          // },
+          // dialectOptions: {
+          //     ssl: true
+          // },
+  }
+
+// {
+//         host : process.env.HOST,
+//         username : process.env.USER,
+//         password : process.env.PASSWORD,
+//         database : process.env.DATA_BASE,
+//         port : process.env.PORT,
+//         dialect : 'postgres',
+//           define : {
+//             timestamps : true,
+//             underscored : true
+//         },
+//         dialectOptions: {
+//             ssl: true
+//         },
+// }

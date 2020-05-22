@@ -16,20 +16,5 @@ module.exports = {
                 cb(null, fileName);
             })
         }
-    }),
-    fileFilter : (req, file, cb) => {
-        const mimes = [
-            'image/jpeg',
-            'image/svg',
-            'image/png',
-            'image/pjpeg',
-            'image/gif'
-        ];
-        if(mimes.includes(file.mimetype)){
-            cb(null,true);
-        }else{
-            cb(new Error('Tipo de arquivo inválido!'));
-        }
-
-    }
+    })
 }
