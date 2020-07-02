@@ -2,8 +2,8 @@ require('dotenv').config()
 
 module.exports = {
     username : 'postgres',
-         password : 'Ha24091999',
-         database : 'sqlportfolio',
+         password : '',
+         database : '',
         define : {
             timestamps : true,
             underscored : true
